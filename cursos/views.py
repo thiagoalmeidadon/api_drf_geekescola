@@ -1,3 +1,4 @@
+from django.db.models.fields import mixins
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from .models import Curso, Avaliacao 
@@ -6,6 +7,7 @@ from .serializers import CursoSerializer, AvaliacaoSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action  
 from rest_framework.response import Response
+from rest_framework import mixins
 
 """ API V1 """
 # ListCreateAPIView lista e cria 
@@ -49,6 +51,19 @@ class CursoViewSet(viewsets.ModelViewSet):
         serializer = AvaliacaoSerializer(curso.avaliacoes.all(), many=True)
         return Response(serializer.data)
     
+"""    
 class AvaliacaoViewSet(viewsets.ModelViewSet):
+    queryset = Avaliacao.objects.all()
+    serializer_class = AvaliacaoSerializer
+"""
+
+# customizando viewset 
+class AvaliacaoViewSet(
+    # mixins.ListModelMixin,
+    # mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = Avaliacao.objects.all()
     serializer_class = AvaliacaoSerializer
