@@ -21,6 +21,13 @@ class AvaliacaoSerializer(serializers.ModelSerializer):
             'criacao',
             'ativo'
         )
+     
+    # é um padrão de validação no serialize usar validade_    
+    def validade_avaliacao(self, valor):
+        if valor in range(1,6):
+            return valor
+        raise serializers.ValidationError("valor fora do range")
+        
         
         
 class CursoSerializer(serializers.ModelSerializer):
